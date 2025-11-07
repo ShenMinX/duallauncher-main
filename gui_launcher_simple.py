@@ -58,6 +58,29 @@ def _resolve_base_dir() -> Path:
 
 BASE_DIR = _resolve_base_dir()
 CONF_PATH = BASE_DIR / "launch.conf"
+CRASH_LOG_PATH = BASE_DIR / "crash_log.txt"
+
+# ---------------- Crash Logging -----------------
+
+def log_crash(app_name: str, executable_path: str, termination_type: str = "unexpected_exit"):
+    """Log app crash/unexpected exit to crash_log.txt
+    
+    Args:
+        app_name: Name of the application
+        executable_path: Path to the executable
+        termination_type: One of:
+            - "stopped_by_launcher": User clicked Stop button
+            - "launcher_closed": Launcher window closed, terminating all apps
+            - "user_closed": User closed app directly (Alt+F4, X button, etc.)
+            - "crashed": App crashed/exited unexpectedly with autoRestart enabled
+    """
+    try:
+        timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+        log_entry = f"[{timestamp}] App: {app_name}, Executable: {executable_path}, Termination: {termination_type}\n"
+        with CRASH_LOG_PATH.open("a", encoding="utf-8") as f:
+            f.write(log_entry)
+    except Exception:
+        pass  # Silent fail to not disrupt monitoring
 
 # ---------------- Persistence -----------------
 
@@ -582,6 +605,9 @@ class SimpleLauncherApp(tk.Tk):
         self._user_stop_flags[name] = True
         p = self.processes.get(name)
         if p and p.poll() is None:
+            # Log that this was stopped by launcher button
+            executable_path = prof.get("path", "unknown")
+            log_crash(name, executable_path, "stopped_by_launcher")
             try:
                 p.terminate()
                 try:
@@ -827,12 +853,8 @@ class SimpleLauncherApp(tk.Tk):
             try:
                 now = time.time()
                 for prof in list(self.data.get("profiles", [])):
-                    if not prof.get("autoRestart"):
-                        continue
                     name = prof.get("name")
                     if name in self._launching:
-                        continue
-                    if self._user_stop_flags.get(name):
                         continue
                     p = self.processes.get(name)
                     if p is None:
@@ -840,12 +862,26 @@ class SimpleLauncherApp(tk.Tk):
                     running = getattr(p, 'poll', lambda: None)() is None
                     if running:
                         continue
-                    last = self._last_restart.get(name, 0)
-                    if now - last < 3:
-                        continue
-                    self._last_restart[name] = now
-                    self.status.set(f"Detected exit, restarting: {name}")
-                    self._start_profile(prof)
+                    
+                    # Process has exited
+                    executable_path = prof.get("path", "unknown")
+                    
+                    # Determine termination type
+                    if self._user_stop_flags.get(name):
+                        # Was stopped by launcher button (already logged in _stop_profile)
+                        pass
+                    elif prof.get("autoRestart"):
+                        # Has autoRestart enabled, so this is a crash/unexpected exit
+                        log_crash(name, executable_path, "crashed")
+                        # Auto-restart logic
+                        last = self._last_restart.get(name, 0)
+                        if now - last >= 3:
+                            self._last_restart[name] = now
+                            self.status.set(f"Detected exit, restarting: {name}")
+                            self._start_profile(prof)
+                    else:
+                        # No autoRestart, user must have closed it directly (Alt+F4, X button, etc.)
+                        log_crash(name, executable_path, "user_closed")
             except Exception:
                 pass
             for _ in range(6):
@@ -961,8 +997,14 @@ class SimpleLauncherApp(tk.Tk):
             pass
         try:
             for name, p in list(self.processes.items()):
-                self._user_stop_flags[name] = True
                 if p and getattr(p, 'poll', lambda: None)() is None:
+                    # Find profile to get executable path
+                    prof = next((pr for pr in self.data.get("profiles", []) if pr.get("name") == name), None)
+                    if prof:
+                        executable_path = prof.get("path", "unknown")
+                        log_crash(name, executable_path, "launcher_closed")
+                    
+                    self._user_stop_flags[name] = True
                     try:
                         p.terminate()
                         try:

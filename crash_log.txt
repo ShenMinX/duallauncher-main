@@ -1,0 +1,17 @@
+[2025-11-07 23:55:07] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim
+[2025-11-07 23:55:11] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim
+[2025-11-07 23:55:14] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim
+[2025-11-07 23:55:17] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim
+[2025-11-07 23:55:20] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim
+[2025-11-07 23:55:23] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim
+[2025-11-07 23:55:26] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim
+[2025-11-07 23:55:29] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim
+[2025-11-07 23:55:32] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim
+[2025-11-07 23:55:35] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim
+[2025-11-07 23:55:38] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim
+[2025-11-07 23:55:41] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim
+[2025-11-07 23:55:44] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim
+[2025-11-07 23:55:47] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim
+[2025-11-08 00:03:57] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: user_closed
+[2025-11-08 00:04:00] App: chart, Executable: /home/ashen/projects/duallauncher-main/apps/usv-navigation-backend, Termination: stopped_by_launcher
+[2025-11-08 00:04:02] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: launcher_closed
