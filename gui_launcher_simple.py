@@ -600,19 +600,22 @@ class SimpleLauncherApp(tk.Tk):
         def worker():
             profs = list(self.data.get("profiles", []))
             profs.sort(key=lambda p: (p.get("group", ""), int(p.get("order", 0) or 0), p.get("name", "")))
-            for prof in profs:
+            for idx, prof in enumerate(profs):
                 try:
                     name = prof.get("name")
+                    self.status.set(f"Starting {idx+1}/{len(profs)}: {name}")
                     self._start_profile(prof)
-                    # wait for this launch attempt to finish before starting next
-                    timeout = max(3, int(prof.get("waitTimeout", 0) or 0) + 5)
+                    # wait for launch thread to complete (name removed from _launching)
+                    timeout = max(10, int(prof.get("waitTimeout", 0) or 0) + 10)
                     deadline = time.time() + timeout
+                    time.sleep(0.3)  # give thread time to start
                     while name in self._launching and not self._stop_event.is_set() and time.time() < deadline:
                         time.sleep(0.2)
                     # optional post-launch delay if in a group
                     try:
                         if (prof.get("group", "").strip() and int(prof.get("postLaunchDelay", 0) or 0) > 0):
                             delay = int(prof.get("postLaunchDelay", 0) or 0)
+                            self.status.set(f"Waiting {delay}s before next launch...")
                             end = time.time() + delay
                             while time.time() < end and not self._stop_event.is_set():
                                 time.sleep(0.2)
@@ -633,17 +636,20 @@ class SimpleLauncherApp(tk.Tk):
         def worker():
             profs = [p for p in self.data.get("profiles", []) if (p.get("group", "").strip() in gset)]
             profs.sort(key=lambda p: (p.get("group", ""), int(p.get("order", 0) or 0), p.get("name", "")))
-            for prof in profs:
+            for idx, prof in enumerate(profs):
                 try:
                     name = prof.get("name")
+                    self.status.set(f"Starting {idx+1}/{len(profs)}: {name}")
                     self._start_profile(prof)
-                    timeout = max(3, int(prof.get("waitTimeout", 0) or 0) + 5)
+                    timeout = max(10, int(prof.get("waitTimeout", 0) or 0) + 10)
                     deadline = time.time() + timeout
+                    time.sleep(0.3)  # give thread time to start
                     while name in self._launching and not self._stop_event.is_set() and time.time() < deadline:
                         time.sleep(0.2)
                     try:
                         if (prof.get("group", "").strip() and int(prof.get("postLaunchDelay", 0) or 0) > 0):
                             delay = int(prof.get("postLaunchDelay", 0) or 0)
+                            self.status.set(f"Waiting {delay}s before next launch...")
                             end = time.time() + delay
                             while time.time() < end and not self._stop_event.is_set():
                                 time.sleep(0.2)
@@ -664,17 +670,20 @@ class SimpleLauncherApp(tk.Tk):
         def worker():
             profs = [p for p in self.data.get("profiles", []) if (p.get("group", "").strip() == group)]
             profs.sort(key=lambda p: (int(p.get("order", 0) or 0), p.get("name", "")))
-            for prof in profs:
+            for idx, prof in enumerate(profs):
                 try:
                     name = prof.get("name")
+                    self.status.set(f"Starting {idx+1}/{len(profs)}: {name}")
                     self._start_profile(prof)
-                    timeout = max(3, int(prof.get("waitTimeout", 0) or 0) + 5)
+                    timeout = max(10, int(prof.get("waitTimeout", 0) or 0) + 10)
                     deadline = time.time() + timeout
+                    time.sleep(0.3)  # give thread time to start
                     while name in self._launching and not self._stop_event.is_set() and time.time() < deadline:
                         time.sleep(0.2)
                     try:
                         if (prof.get("group", "").strip() and int(prof.get("postLaunchDelay", 0) or 0) > 0):
                             delay = int(prof.get("postLaunchDelay", 0) or 0)
+                            self.status.set(f"Waiting {delay}s before next launch...")
                             end = time.time() + delay
                             while time.time() < end and not self._stop_event.is_set():
                                 time.sleep(0.2)
@@ -707,24 +716,44 @@ class SimpleLauncherApp(tk.Tk):
                 pass
 
     def _auto_start_profiles(self):
-        try:
-            # Auto-start behavior with optional group override
-            override = bool(self.data.get("autoStartGroupsOverride"))
-            groups = set([g.strip() for g in self.data.get("autoStartGroups", []) if g and g.strip()])
-            if override and groups:
-                profs = [p for p in self.data.get("profiles", []) if (p.get("group", "").strip() in groups)]
-            else:
-                # fallback to per-app autoStart
-                profs = [p for p in self.data.get("profiles", []) if p.get("autoStart")]
-            profs.sort(key=lambda p: (p.get("group", ""), int(p.get("order", 0) or 0), p.get("name", "")))
-            for prof in profs:
-                try:
-                    self._start_profile(prof)
-                except Exception:
-                    pass
-            self.status.set("Auto start complete")
-        except Exception:
-            self.status.set("Auto start complete (with errors)")
+        def worker():
+            try:
+                # Auto-start behavior with optional group override
+                override = bool(self.data.get("autoStartGroupsOverride"))
+                groups = set([g.strip() for g in self.data.get("autoStartGroups", []) if g and g.strip()])
+                if override and groups:
+                    profs = [p for p in self.data.get("profiles", []) if (p.get("group", "").strip() in groups)]
+                else:
+                    # fallback to per-app autoStart
+                    profs = [p for p in self.data.get("profiles", []) if p.get("autoStart")]
+                profs.sort(key=lambda p: (p.get("group", ""), int(p.get("order", 0) or 0), p.get("name", "")))
+                for idx, prof in enumerate(profs):
+                    try:
+                        name = prof.get("name")
+                        self.status.set(f"Auto-starting {idx+1}/{len(profs)}: {name}")
+                        self._start_profile(prof)
+                        timeout = max(10, int(prof.get("waitTimeout", 0) or 0) + 10)
+                        deadline = time.time() + timeout
+                        time.sleep(0.3)  # give thread time to start
+                        while name in self._launching and not self._stop_event.is_set() and time.time() < deadline:
+                            time.sleep(0.2)
+                        # optional post-launch delay if in a group
+                        try:
+                            if (prof.get("group", "").strip() and int(prof.get("postLaunchDelay", 0) or 0) > 0):
+                                delay = int(prof.get("postLaunchDelay", 0) or 0)
+                                self.status.set(f"Waiting {delay}s before next launch...")
+                                end = time.time() + delay
+                                while time.time() < end and not self._stop_event.is_set():
+                                    time.sleep(0.2)
+                        except Exception:
+                            pass
+                    except Exception:
+                        pass
+                self.status.set("Auto start complete")
+            except Exception:
+                self.status.set("Auto start complete (with errors)")
+
+        threading.Thread(target=worker, daemon=True).start()
 
     def open_group_launcher(self):
         try:
