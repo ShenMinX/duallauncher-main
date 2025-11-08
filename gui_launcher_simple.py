@@ -882,6 +882,10 @@ class SimpleLauncherApp(tk.Tk):
                     else:
                         # No autoRestart, user must have closed it directly (Alt+F4, X button, etc.)
                         log_crash(name, executable_path, "user_closed")
+                        # Update status to reflect stopped state
+                        self.processes.pop(name, None)
+                        self.status_map[name] = "Stopped"
+                        self.after(0, self._apply_status_to_tree)
             except Exception:
                 pass
             for _ in range(6):

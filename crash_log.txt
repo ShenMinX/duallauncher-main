@@ -15,3 +15,5 @@
 [2025-11-08 00:03:57] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: user_closed
 [2025-11-08 00:04:00] App: chart, Executable: /home/ashen/projects/duallauncher-main/apps/usv-navigation-backend, Termination: stopped_by_launcher
 [2025-11-08 00:04:02] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: launcher_closed
+[2025-11-09 00:25:05] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: stopped_by_launcher
+[2025-11-09 00:25:32] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: user_closed
