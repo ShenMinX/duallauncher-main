@@ -347,13 +347,17 @@ class SimpleLauncherApp(tk.Tk):
         self._last_restart = {}       # name -> last restart time
         self._redis_client = None
         self._redis_monitor_running = False
+        self._auto_start_attempted = False  # track if auto-start has been attempted
+        self._auto_start_retry_count = 0    # retry counter for failed auto-starts
 
         self._build_menu()
         self._build_main()
         self._load_table()
 
-        # Auto start after short delay
-        self.after(200, self._auto_start_profiles)
+        # Auto start with longer delay to allow system to be ready (especially for service mode)
+        # Use 3 seconds for service startup, fallback to 200ms for normal launch
+        initial_delay = 3000 if self._is_likely_service_mode() else 200
+        self.after(initial_delay, self._auto_start_profiles)
         # Background connectivity monitor
         threading.Thread(target=self._conn_monitor, daemon=True).start()
         # Background process monitor (autoRestart)
@@ -587,13 +591,23 @@ class SimpleLauncherApp(tk.Tk):
             # launch process
             try:
                 cmd = [path] + ([a for a in args.split() if a] if args else [])
-                proc = subprocess.Popen(cmd, cwd=str(Path(path).parent))
+                
+                # Robust launch arguments for service/headless environments
+                kwargs = {
+                    "cwd": str(Path(path).parent),
+                    "stdin": subprocess.DEVNULL,
+                }
+                if sys.platform != "win32":
+                    kwargs["start_new_session"] = True
+                
+                proc = subprocess.Popen(cmd, **kwargs)
                 self.processes[name] = proc
                 self.status_map[name] = "Running"
                 self.status.set(f"Started: {name}")
             except Exception as e:
                 self.status_map[name] = "Stopped"
                 self.status.set(f"Launch failed {name}: {e}")
+                log_crash(name, path, f"launch_failed: {e}")
             finally:
                 self._launching.discard(name)
                 self._apply_status_to_tree()
@@ -761,6 +775,9 @@ class SimpleLauncherApp(tk.Tk):
     def _auto_start_profiles(self):
         def worker():
             try:
+                # Mark as attempted
+                self._auto_start_attempted = True
+                
                 # Auto-start behavior with optional group override
                 override = bool(self.data.get("autoStartGroupsOverride"))
                 group_modes = self.data.get("groupModes", {})
@@ -768,15 +785,24 @@ class SimpleLauncherApp(tk.Tk):
                 if override:
                     # Use group modes: start groups with mode='on'
                     on_groups = {g for g, gm in group_modes.items() if gm.get("mode") == "on"}
+                    profs = []
+                    # Add grouped apps with mode='on'
                     if on_groups:
-                        profs = [p for p in self.data.get("profiles", []) if (p.get("group", "").strip() in on_groups)]
-                    else:
-                        profs = []
+                        profs.extend([p for p in self.data.get("profiles", []) if (p.get("group", "").strip() in on_groups)])
+                    # Always include ungrouped apps with autoStart=true
+                    profs.extend([p for p in self.data.get("profiles", []) 
+                                 if p.get("autoStart") and not (p.get("group", "").strip())])
                 else:
                     # fallback to per-app autoStart
                     profs = [p for p in self.data.get("profiles", []) if p.get("autoStart")]
                 
+                if not profs:
+                    self.status.set("No profiles to auto-start")
+                    return
+                
                 profs.sort(key=lambda p: (p.get("group", ""), int(p.get("order", 0) or 0), p.get("name", "")))
+                
+                failed_profs = []
                 for idx, prof in enumerate(profs):
                     try:
                         name = prof.get("name")
@@ -787,6 +813,11 @@ class SimpleLauncherApp(tk.Tk):
                         time.sleep(0.3)  # give thread time to start
                         while name in self._launching and not self._stop_event.is_set() and time.time() < deadline:
                             time.sleep(0.2)
+                        
+                        # Check if launch actually succeeded
+                        if name not in self.processes or self.processes[name].poll() is not None:
+                            failed_profs.append(prof)
+                        
                         # optional post-launch delay if in a group
                         try:
                             if (prof.get("group", "").strip() and int(prof.get("postLaunchDelay", 0) or 0) > 0):
@@ -797,12 +828,84 @@ class SimpleLauncherApp(tk.Tk):
                                     time.sleep(0.2)
                         except Exception:
                             pass
-                    except Exception:
-                        pass
-                self.status.set("Auto start complete")
-            except Exception:
-                self.status.set("Auto start complete (with errors)")
+                    except Exception as e:
+                        failed_profs.append(prof)
+                        # Log the error
+                        try:
+                            with CRASH_LOG_PATH.open("a", encoding="utf-8") as f:
+                                timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+                                f.write(f"[{timestamp}] Auto-start failed: {prof.get('name')}, Error: {e}\n")
+                        except Exception:
+                            pass
+                
+                # Retry failed launches if this is first attempt and we have failures
+                if failed_profs and self._auto_start_retry_count < 3:
+                    self._auto_start_retry_count += 1
+                    retry_delay = 5 * self._auto_start_retry_count  # 5s, 10s, 15s
+                    self.status.set(f"Retrying {len(failed_profs)} failed launches in {retry_delay}s (attempt {self._auto_start_retry_count}/3)...")
+                    self.after(retry_delay * 1000, lambda: self._retry_failed_starts(failed_profs))
+                elif failed_profs:
+                    self.status.set(f"Auto start complete ({len(failed_profs)} failed after retries)")
+                else:
+                    self.status.set("Auto start complete")
+            except Exception as e:
+                self.status.set(f"Auto start error: {e}")
+                try:
+                    with CRASH_LOG_PATH.open("a", encoding="utf-8") as f:
+                        timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+                        f.write(f"[{timestamp}] Auto-start exception: {e}\n")
+                except Exception:
+                    pass
 
+        threading.Thread(target=worker, daemon=True).start()
+
+    def _retry_failed_starts(self, failed_profs):
+        """Retry launching profiles that failed during auto-start"""
+        def worker():
+            try:
+                still_failed = []
+                for idx, prof in enumerate(failed_profs):
+                    try:
+                        name = prof.get("name")
+                        # Skip if already running
+                        if name in self.processes and self.processes[name].poll() is None:
+                            continue
+                        
+                        self.status.set(f"Retrying {idx+1}/{len(failed_profs)}: {name}")
+                        self._start_profile(prof)
+                        timeout = max(10, int(prof.get("waitTimeout", 0) or 0) + 10)
+                        deadline = time.time() + timeout
+                        time.sleep(0.3)
+                        while name in self._launching and not self._stop_event.is_set() and time.time() < deadline:
+                            time.sleep(0.2)
+                        
+                        # Check if launch succeeded
+                        if name not in self.processes or self.processes[name].poll() is not None:
+                            still_failed.append(prof)
+                        
+                        # Post-launch delay
+                        try:
+                            if (prof.get("group", "").strip() and int(prof.get("postLaunchDelay", 0) or 0) > 0):
+                                delay = int(prof.get("postLaunchDelay", 0) or 0)
+                                time.sleep(delay)
+                        except Exception:
+                            pass
+                    except Exception:
+                        still_failed.append(prof)
+                
+                # Retry again if needed
+                if still_failed and self._auto_start_retry_count < 3:
+                    self._auto_start_retry_count += 1
+                    retry_delay = 5 * self._auto_start_retry_count
+                    self.status.set(f"Retrying {len(still_failed)} failed launches in {retry_delay}s (attempt {self._auto_start_retry_count}/3)...")
+                    self.after(retry_delay * 1000, lambda: self._retry_failed_starts(still_failed))
+                elif still_failed:
+                    self.status.set(f"Auto start complete ({len(still_failed)} failed after retries)")
+                else:
+                    self.status.set("All retried launches successful")
+            except Exception:
+                pass
+        
         threading.Thread(target=worker, daemon=True).start()
 
     def open_group_launcher(self):
@@ -810,6 +913,21 @@ class SimpleLauncherApp(tk.Tk):
             GroupLauncherWindow(self)
         except Exception as e:
             messagebox.showerror("Error", f"Failed to open Group Launcher: {e}")
+
+    def _is_likely_service_mode(self):
+        """Detect if running as a systemd service or at boot"""
+        try:
+            # Check if DISPLAY is set (not set in early boot)
+            # Check if running under systemd
+            import os
+            if os.environ.get("INVOCATION_ID"):  # systemd sets this
+                return True
+            # Check if no terminal attached
+            if not sys.stdin.isatty():
+                return True
+        except Exception:
+            pass
+        return False
 
     # ---- Background monitors ----
     def _apply_status_to_tree(self):
