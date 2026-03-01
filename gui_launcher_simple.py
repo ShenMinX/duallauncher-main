@@ -7,6 +7,7 @@ import subprocess
 import time
 import sys
 import socket
+import os
 import urllib.request
 import urllib.error
 
@@ -59,6 +60,16 @@ def _resolve_base_dir() -> Path:
 BASE_DIR = _resolve_base_dir()
 CONF_PATH = BASE_DIR / "launch.conf"
 CRASH_LOG_PATH = BASE_DIR / "crash_log.txt"
+
+
+def _should_inherit_stdio() -> bool:
+    """Return True if child processes should inherit launcher's stdio.
+
+    Default is False to avoid severe terminal/journal I/O contention when
+    multiple child processes are launched together.
+    Set env LAUNCHER_INHERIT_STDIO=1 to restore old behavior for debugging.
+    """
+    return (os.environ.get("LAUNCHER_INHERIT_STDIO", "").strip().lower() in {"1", "true", "yes", "on"})
 
 # ---------------- Crash Logging -----------------
 
@@ -446,6 +457,8 @@ class SimpleLauncherApp(tk.Tk):
         self.group_var = tk.StringVar(value="")
         self.group_combo = ttk.Combobox(ops, textvariable=self.group_var, width=18, state="readonly")
         self.group_combo.pack(side="left")
+        ttk.Button(ops, text="Start Group", command=self.on_start_group).pack(side="left", padx=4)
+        ttk.Button(ops, text="Stop Group", command=self.on_stop_group).pack(side="left", padx=4)
         ttk.Button(ops, text="Group Settings...", command=self.open_group_launcher).pack(side="left", padx=4)
         ttk.Button(ops, text="Stop All", command=self.on_stop_all).pack(side="left", padx=12)
 
@@ -597,6 +610,14 @@ class SimpleLauncherApp(tk.Tk):
                     "cwd": str(Path(path).parent),
                     "stdin": subprocess.DEVNULL,
                 }
+                if _should_inherit_stdio():
+                    # Keep previous behavior for debugging use-cases
+                    kwargs["stdout"] = None
+                    kwargs["stderr"] = None
+                else:
+                    # Avoid shared console/journal output contention across many children
+                    kwargs["stdout"] = subprocess.DEVNULL
+                    kwargs["stderr"] = subprocess.DEVNULL
                 if sys.platform != "win32":
                     kwargs["start_new_session"] = True
                 
@@ -919,7 +940,6 @@ class SimpleLauncherApp(tk.Tk):
         try:
             # Check if DISPLAY is set (not set in early boot)
             # Check if running under systemd
-            import os
             if os.environ.get("INVOCATION_ID"):  # systemd sets this
                 return True
             # Check if no terminal attached

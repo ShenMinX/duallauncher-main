@@ -49,3 +49,134 @@
 [2025-11-24 16:44:34] App: chart, Executable: /home/ashen/projects/duallauncher-main/apps/usv-navigation-backend, Termination: crashed
 [2025-11-24 16:44:37] App: chart, Executable: /home/ashen/projects/duallauncher-main/apps/usv-navigation-backend, Termination: crashed
 [2025-11-24 16:44:38] App: chart, Executable: /home/ashen/projects/duallauncher-main/apps/usv-navigation-backend, Termination: stopped_by_launcher
+[2025-11-26 10:13:11] App: chart, Executable: /home/ashen/projects/duallauncher-main/apps/usv-navigation-backend, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2025-11-26 10:13:11] App: chrome, Executable: /usr/bin/google-chrome, Termination: launch_failed: [Errno 2] No such file or directory: '/usr/bin/google-chrome'
+[2025-11-26 10:13:12] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2025-11-26 15:05:41] App: chart, Executable: /home/ashen/projects/duallauncher-main/apps/usv-navigation-backend, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2025-11-26 15:05:42] App: chrome, Executable: /usr/bin/google-chrome, Termination: launch_failed: [Errno 2] No such file or directory: '/usr/bin/google-chrome'
+[2025-11-26 15:05:51] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2025-11-26 15:05:47] App: chart, Executable: /home/ashen/projects/duallauncher-main/apps/usv-navigation-backend, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2025-11-26 15:05:56] App: chart, Executable: /home/ashen/projects/duallauncher-main/apps/usv-navigation-backend, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2025-11-26 15:05:47] App: chrome, Executable: /usr/bin/google-chrome, Termination: launch_failed: [Errno 2] No such file or directory: '/usr/bin/google-chrome'
+[2025-11-26 15:05:48] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2025-11-26 15:06:01] App: chart, Executable: /home/ashen/projects/duallauncher-main/apps/usv-navigation-backend, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2025-11-26 15:05:52] App: chrome, Executable: /usr/bin/google-chrome, Termination: launch_failed: [Errno 2] No such file or directory: '/usr/bin/google-chrome'
+[2025-11-26 15:05:53] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2025-11-26 15:06:11] App: chart, Executable: /home/ashen/projects/duallauncher-main/apps/usv-navigation-backend, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2025-11-26 15:06:02] App: chrome, Executable: /usr/bin/google-chrome, Termination: launch_failed: [Errno 2] No such file or directory: '/usr/bin/google-chrome'
+[2025-11-26 15:06:03] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2025-11-26 15:06:14] App: chart, Executable: /home/ashen/projects/duallauncher-main/apps/usv-navigation-backend, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2025-11-26 15:07:04] App: chart, Executable: /home/shen/project/simpleseachart/dist/chart, Termination: crashed
+[2025-11-26 15:07:07] App: chart, Executable: /home/shen/project/simpleseachart/dist/chart, Termination: crashed
+[2025-11-26 15:07:10] App: chart, Executable: /home/shen/project/simpleseachart/dist/chart, Termination: crashed
+[2025-11-26 15:07:13] App: chart, Executable: /home/shen/project/simpleseachart/dist/chart, Termination: crashed
+[2025-11-26 15:07:16] App: chart, Executable: /home/shen/project/simpleseachart/dist/chart, Termination: crashed
+[2025-11-26 15:07:18] App: chart, Executable: /home/shen/project/simpleseachart/dist/chart, Termination: crashed
+[2025-11-26 15:07:21] App: chart, Executable: /home/shen/project/simpleseachart/dist/chart, Termination: crashed
+[2025-11-26 15:07:24] App: chart, Executable: /home/shen/project/simpleseachart/dist/chart, Termination: crashed
+[2025-11-26 15:07:27] App: chart, Executable: /home/shen/project/simpleseachart/dist/chart, Termination: crashed
+[2025-11-26 15:07:30] App: chart, Executable: /home/shen/project/simpleseachart/dist/chart, Termination: crashed
+[2025-11-26 15:07:33] App: chart, Executable: /home/shen/project/simpleseachart/dist/chart, Termination: crashed
+[2025-11-26 15:07:44] App: chart, Executable: /home/shen/project/simpleseachart/dist/chart, Termination: crashed
+[2025-11-26 15:07:47] App: chart, Executable: /home/shen/project/simpleseachart/dist/chart, Termination: crashed
+[2025-11-26 15:07:50] App: chart, Executable: /home/shen/project/simpleseachart/dist/chart, Termination: crashed
+[2025-11-26 15:07:54] App: chart, Executable: /home/shen/project/simpleseachart/dist/chart, Termination: crashed
+[2025-11-26 15:07:55] App: chart, Executable: /home/shen/project/simpleseachart/dist/chart, Termination: stopped_by_launcher
+[2025-11-26 15:09:32] App: chrome, Executable: /usr/bin/google-chrome, Termination: launch_failed: [Errno 2] No such file or directory: '/usr/bin/google-chrome'
+[2026-01-15 15:49:04] App: chrome, Executable: /usr/bin/google-chrome, Termination: launch_failed: [Errno 2] No such file or directory: '/usr/bin/google-chrome'
+[2026-01-15 15:49:04] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2026-01-15 15:49:38] App: chrome, Executable: /usr/bin/google-chrome, Termination: launch_failed: [Errno 2] No such file or directory: '/usr/bin/google-chrome'
+[2026-01-15 15:49:38] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2026-01-15 15:49:43] App: chrome, Executable: /usr/bin/google-chrome, Termination: launch_failed: [Errno 2] No such file or directory: '/usr/bin/google-chrome'
+[2026-01-15 15:49:44] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2026-01-15 15:49:54] App: chrome, Executable: /usr/bin/google-chrome, Termination: launch_failed: [Errno 2] No such file or directory: '/usr/bin/google-chrome'
+[2026-01-15 15:49:54] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2026-01-15 15:50:09] App: chrome, Executable: /usr/bin/google-chrome, Termination: launch_failed: [Errno 2] No such file or directory: '/usr/bin/google-chrome'
+[2026-01-15 15:50:10] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2026-01-15 16:17:02] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2026-01-16 10:59:00] App: chrome, Executable: /usr/bin/google-chrome, Termination: launch_failed: [Errno 2] No such file or directory: '/usr/bin/google-chrome'
+[2026-01-16 10:59:01] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2026-01-16 10:59:06] App: chart, Executable: /home/shen/project/simpleseachart/dist/chart, Termination: crashed
+[2026-01-16 10:59:06] App: chrome, Executable: /usr/bin/google-chrome, Termination: launch_failed: [Errno 2] No such file or directory: '/usr/bin/google-chrome'
+[2026-01-16 10:59:06] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2026-01-16 10:59:17] App: chrome, Executable: /usr/bin/google-chrome, Termination: launch_failed: [Errno 2] No such file or directory: '/usr/bin/google-chrome'
+[2026-01-16 10:59:17] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2026-01-16 10:59:32] App: chrome, Executable: /usr/bin/google-chrome, Termination: launch_failed: [Errno 2] No such file or directory: '/usr/bin/google-chrome'
+[2026-01-16 10:59:32] App: sim, Executable: /home/ashen/projects/duallauncher-main/apps/sim, Termination: launch_failed: [Errno 2] No such file or directory: '/home/ashen/projects/duallauncher-main/apps'
+[2026-01-16 11:01:37] App: ca, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0, Termination: launch_failed: [Errno 13] Permission denied: '/home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0'
+[2026-01-16 11:01:37] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launch_failed: [Errno 13] Permission denied: '/home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis'
+[2026-01-16 11:01:37] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launch_failed: [Errno 13] Permission denied: '/home/shen/project/duallauncher-main/apps/plow2'
+[2026-01-16 11:01:49] App: ca, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0, Termination: launch_failed: [Errno 13] Permission denied: '/home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0'
+[2026-01-16 11:01:49] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launch_failed: [Errno 13] Permission denied: '/home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis'
+[2026-01-16 11:01:50] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launch_failed: [Errno 13] Permission denied: '/home/shen/project/duallauncher-main/apps/plow2'
+[2026-01-16 11:01:51] App: ca, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0, Termination: launch_failed: [Errno 13] Permission denied: '/home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0'
+[2026-01-16 11:01:51] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launch_failed: [Errno 13] Permission denied: '/home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis'
+[2026-01-16 11:01:52] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launch_failed: [Errno 13] Permission denied: '/home/shen/project/duallauncher-main/apps/plow2'
+[2026-01-16 11:01:53] App: ca, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0, Termination: launch_failed: [Errno 13] Permission denied: '/home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0'
+[2026-01-16 11:01:53] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launch_failed: [Errno 13] Permission denied: '/home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis'
+[2026-01-16 11:01:53] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launch_failed: [Errno 13] Permission denied: '/home/shen/project/duallauncher-main/apps/plow2'
+[2026-01-16 11:10:27] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-01-16 11:10:27] App: ca, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0, Termination: stopped_by_launcher
+[2026-01-16 11:10:27] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-01 17:45:42] App: ca, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0, Termination: launcher_closed
+[2026-03-01 17:45:42] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-01 17:45:43] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-01 18:04:32] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-01 18:04:32] App: ca, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0, Termination: stopped_by_launcher
+[2026-03-01 18:04:32] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-01 18:19:41] App: ca, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0'
+[2026-03-01 18:19:47] App: ca, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0'
+[2026-03-01 18:19:57] App: ca, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0'
+[2026-03-01 18:20:13] App: ca, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0'
+[2026-03-01 18:30:06] App: ca, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0'
+[2026-03-01 18:30:13] App: ca, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0'
+[2026-03-01 18:30:23] App: ca, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0'
+[2026-03-01 18:30:38] App: ca, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0'
+[2026-03-01 18:32:44] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-01 18:32:44] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-01 18:33:08] App: ca, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0'
+[2026-03-01 18:33:14] App: ca, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0'
+[2026-03-01 18:33:25] App: ca, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/Autonomous_obstacle_avoidance_based_on_A_Star1.0'
+[2026-03-01 18:35:37] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-01 18:35:37] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-01 18:35:37] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-01 18:48:38] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
+[2026-03-01 18:48:38] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-01 18:48:38] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-01 19:42:35] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
+[2026-03-01 19:42:35] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-01 19:42:35] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-01 19:58:50] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
+[2026-03-01 19:58:50] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-01 19:58:50] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-01 20:14:47] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
+[2026-03-01 20:14:47] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-01 20:14:47] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-01 20:18:31] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-01 20:18:52] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-01 20:18:52] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-01 20:18:52] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-01 20:19:52] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-01 20:20:20] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-01 20:20:20] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-01 20:20:20] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-01 20:24:00] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-01 20:24:00] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-01 20:24:23] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-01 20:24:23] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-01 20:24:28] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-01 20:24:28] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-01 20:24:45] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-01 20:24:45] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-01 20:25:17] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-01 20:25:17] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-01 20:25:22] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-01 20:25:22] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-01 20:25:26] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-01 20:25:26] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-01 20:25:28] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-01 20:25:28] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-01 20:26:24] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-01 20:26:24] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-01 20:26:50] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
+[2026-03-01 20:26:50] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
