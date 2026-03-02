@@ -364,6 +364,7 @@ class SimpleLauncherApp(tk.Tk):
         self._redis_monitor_running = False
         self._auto_start_attempted = False  # track if auto-start has been attempted
         self._auto_start_retry_count = 0    # retry counter for failed auto-starts
+        self._active_groups = set()         # groups currently considered active/running
 
         self._build_menu()
         self._build_main()
@@ -581,6 +582,48 @@ class SimpleLauncherApp(tk.Tk):
             if self._profile_in_group(prof, g) and self._is_profile_running(prof):
                 return True
         return False
+
+    def _mark_groups_active(self, groups):
+        for g in (groups or []):
+            gg = (g or "").strip()
+            if gg:
+                self._active_groups.add(gg)
+
+    def _mark_groups_inactive(self, groups):
+        for g in (groups or []):
+            gg = (g or "").strip()
+            if gg:
+                self._active_groups.discard(gg)
+
+    def _should_keep_shared_profile_on_group_stop(self, prof: dict, stopping_group: str) -> bool:
+        """Keep profile running if it belongs to any other currently active group."""
+        g = (stopping_group or "").strip()
+        if not g:
+            return False
+        other_groups = set(self._profile_groups(prof)) - {g}
+        return bool(other_groups & self._active_groups)
+
+    def _stop_group_profiles(self, group: str) -> int:
+        """Stop profiles in group, keeping shared apps needed by other active groups.
+
+        Returns:
+            Number of shared apps that were kept running.
+        """
+        g = (group or "").strip()
+        if not g:
+            return 0
+        self._mark_groups_inactive([g])
+        profs = [p for p in self.data.get("profiles", []) if self._profile_in_group(p, g)]
+        skipped = 0
+        for prof in profs:
+            try:
+                if self._should_keep_shared_profile_on_group_stop(prof, g):
+                    skipped += 1
+                    continue
+                self._stop_profile(prof)
+            except Exception:
+                pass
+        return skipped
 
     def _refresh_groups(self):
         groups = self._get_groups()
@@ -954,6 +997,7 @@ class SimpleLauncherApp(tk.Tk):
         groups = [g.strip() for g in (groups or []) if g and g.strip()]
         if not groups:
             return
+        self._mark_groups_active(groups)
         gset = set(groups)
 
         def worker():
@@ -989,6 +1033,7 @@ class SimpleLauncherApp(tk.Tk):
         if not group:
             self.status.set("Select a group to start")
             return
+        self._mark_groups_active([group])
 
         def worker():
             profs = [p for p in self.data.get("profiles", []) if self._profile_in_group(p, group)]
@@ -1023,18 +1068,7 @@ class SimpleLauncherApp(tk.Tk):
         if not group:
             self.status.set("Select a group to stop")
             return
-        profs = [p for p in self.data.get("profiles", []) if self._profile_in_group(p, group)]
-        skipped = 0
-        for prof in profs:
-            try:
-                name = prof.get("name", "")
-                other_groups = set(self._profile_groups(prof)) - {group}
-                if any(self._is_group_running_by_others(g, exclude_profile_name=name) for g in other_groups):
-                    skipped += 1
-                    continue
-                self._stop_profile(prof)
-            except Exception:
-                pass
+        skipped = self._stop_group_profiles(group)
         if skipped:
             self.status.set(f"Stop group '{group}' complete (kept {skipped} shared app(s))")
         else:
@@ -1060,6 +1094,7 @@ class SimpleLauncherApp(tk.Tk):
                 if override:
                     # Use group modes: start groups with mode='on'
                     on_groups = {g for g, gm in group_modes.items() if gm.get("mode") == "on"}
+                    self._mark_groups_active(on_groups)
                     profs = []
                     # Add grouped apps with mode='on'
                     if on_groups:
@@ -1372,6 +1407,11 @@ class SimpleLauncherApp(tk.Tk):
                     
                     # Determine desired state: 1=running, 0/missing=stopped
                     should_run = (value == "1")
+
+                    if should_run:
+                        self._mark_groups_active([group])
+                    else:
+                        self._mark_groups_inactive([group])
                     
                     # Get current state of group
                     profs = [p for p in self.data.get("profiles", []) if self._profile_in_group(p, group)]
@@ -1387,15 +1427,7 @@ class SimpleLauncherApp(tk.Tk):
                     elif not should_run and is_running:
                         # Stop group
                         self.status.set(f"Redis trigger: stopping group '{group}'")
-                        for prof in profs:
-                            try:
-                                name = prof.get("name", "")
-                                other_groups = set(self._profile_groups(prof)) - {group}
-                                if any(self._is_group_running_by_others(g, exclude_profile_name=name) for g in other_groups):
-                                    continue
-                                self._stop_profile(prof)
-                            except Exception:
-                                pass
+                        self._stop_group_profiles(group)
                 
             except Exception as e:
                 # Connection lost or other error
