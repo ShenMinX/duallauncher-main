@@ -8,6 +8,7 @@ import time
 import sys
 import socket
 import os
+import signal
 import urllib.request
 import urllib.error
 
@@ -21,7 +22,7 @@ except ImportError:
 Simplified cross-platform launcher GUI.
 Removes process/title matching and window moving logic (MultiMonitorTool dependent).
 Each profile describes an executable to run with optional arguments. Optional fields:
-  - group: string tag to group related apps
+    - group: string tag(s) to group related apps (comma-separated, e.g. "1,2")
   - order: integer launch order within the group (lower first)
   - path: absolute/relative path to executable/script
   - args: optional argument string (split on whitespace)
@@ -34,7 +35,7 @@ Each profile describes an executable to run with optional arguments. Optional fi
   - waitTimeout: total seconds to wait for connectivity (0 => no wait)
   - waitInterval: interval seconds between probes (default 2)
 
-Launch ordering: "Start All" will sort profiles by (group, order, name).
+Launch ordering: "Start All" will sort profiles by (primary_group, order, name).
 Connectivity column reflects current reachability of waitTarget if defined.
 Status column shows Running / Stopped / Starting.
 
@@ -232,7 +233,7 @@ class ProfileEditor(tk.Toplevel):
         ttk.Label(frm, text="Name:").grid(row=row, column=0, sticky="e", padx=4, pady=4)
         ttk.Entry(frm, textvariable=self.var_name, width=30).grid(row=row, column=1, sticky="w")
         row += 1
-        ttk.Label(frm, text="Group (optional):").grid(row=row, column=0, sticky="e", padx=4, pady=4)
+        ttk.Label(frm, text="Group(s), comma-separated:").grid(row=row, column=0, sticky="e", padx=4, pady=4)
         ttk.Entry(frm, textvariable=self.var_group, width=20).grid(row=row, column=1, sticky="w")
         row += 1
         ttk.Label(frm, text="Order (integer):").grid(row=row, column=0, sticky="e", padx=4, pady=4)
@@ -349,6 +350,9 @@ class SimpleLauncherApp(tk.Tk):
         self.data.setdefault("redisPassword", "")
         # Group modes: {group_name: {"mode": "on"|"off"|"redis", "redisKey": "key:field"}}
         self.data.setdefault("groupModes", {})
+        # Auto-start retry behavior (configurable)
+        self.data.setdefault("autoStartRetryMax", 3)
+        self.data.setdefault("autoStartRetryBaseDelay", 5)
         self.processes = {}           # name -> subprocess.Popen
         self.status_map = {}          # name -> Running / Stopped / Starting
         self.conn_status = {}         # name -> Online / Offline / - / Waiting...
@@ -452,6 +456,7 @@ class SimpleLauncherApp(tk.Tk):
         ttk.Button(ops, text="Start Selected", command=self.on_start_selected).pack(side="left", padx=4)
         ttk.Button(ops, text="Stop Selected", command=self.on_stop_selected).pack(side="left", padx=4)
         ttk.Button(ops, text="Start All in Order", command=self.on_start_all).pack(side="left", padx=12)
+        ttk.Button(ops, text="Stop All", command=self.on_stop_all).pack(side="left", padx=4)
         # Group controls
         ttk.Label(ops, text="Group:").pack(side="left", padx=(12, 4))
         self.group_var = tk.StringVar(value="")
@@ -460,7 +465,6 @@ class SimpleLauncherApp(tk.Tk):
         ttk.Button(ops, text="Start Group", command=self.on_start_group).pack(side="left", padx=4)
         ttk.Button(ops, text="Stop Group", command=self.on_stop_group).pack(side="left", padx=4)
         ttk.Button(ops, text="Group Settings...", command=self.open_group_launcher).pack(side="left", padx=4)
-        ttk.Button(ops, text="Stop All", command=self.on_stop_all).pack(side="left", padx=12)
 
         self.status = tk.StringVar(value="Ready")
         ttk.Label(self, textvariable=self.status, anchor="w").pack(fill="x", padx=10, pady=(0, 8))
@@ -498,10 +502,85 @@ class SimpleLauncherApp(tk.Tk):
 
     def _get_groups(self):
         try:
-            groups = sorted({(p.get("group", "") or "").strip() for p in self.data.get("profiles", [])})
-            return [g for g in groups if g]
+            groups = set()
+            for prof in self.data.get("profiles", []):
+                for grp in self._split_groups(prof.get("group", "")):
+                    groups.add(grp)
+            return sorted(groups)
         except Exception:
             return []
+
+    def _split_groups(self, group_value) -> list:
+        """Parse group field into unique, ordered tokens (comma-separated)."""
+        raw = str(group_value or "")
+        parts = [p.strip() for p in raw.split(",")]
+        result = []
+        seen = set()
+        for p in parts:
+            if not p or p in seen:
+                continue
+            seen.add(p)
+            result.append(p)
+        return result
+
+    def _profile_groups(self, prof: dict) -> list:
+        return self._split_groups((prof or {}).get("group", ""))
+
+    def _profile_in_group(self, prof: dict, group_name: str) -> bool:
+        g = (group_name or "").strip()
+        if not g:
+            return False
+        return g in self._profile_groups(prof)
+
+    def _primary_group(self, prof: dict) -> str:
+        groups = self._profile_groups(prof)
+        return groups[0] if groups else ""
+
+    def _get_auto_start_retry_max(self):
+        """Max retry rounds after first auto-start attempt. '-' means unlimited."""
+        raw = self.data.get("autoStartRetryMax", 3)
+        if isinstance(raw, str) and raw.strip() == "-":
+            return None  # unlimited
+        try:
+            return max(0, int(raw or 0))
+        except Exception:
+            return 3
+
+    def _get_auto_start_retry_base_delay(self) -> int:
+        """Base seconds for backoff delay: delay=min(base*retry_round, 300)."""
+        try:
+            return min(300, max(1, int(self.data.get("autoStartRetryBaseDelay", 5) or 1)))
+        except Exception:
+            return 5
+
+    def _is_profile_running(self, prof: dict) -> bool:
+        name = (prof or {}).get("name")
+        if not name:
+            return False
+        p = self.processes.get(name)
+        return bool(p and getattr(p, "poll", lambda: None)() is None)
+
+    def _running_groups_snapshot(self) -> set:
+        """Return groups that currently have at least one running app."""
+        running = set()
+        for prof in self.data.get("profiles", []):
+            if self._is_profile_running(prof):
+                for g in self._profile_groups(prof):
+                    running.add(g)
+        return running
+
+    def _is_group_running_by_others(self, group_name: str, exclude_profile_name: str = "") -> bool:
+        """True if group has any running app other than exclude_profile_name."""
+        g = (group_name or "").strip()
+        if not g:
+            return False
+        exclude_name = (exclude_profile_name or "").strip()
+        for prof in self.data.get("profiles", []):
+            if exclude_name and (prof.get("name") == exclude_name):
+                continue
+            if self._profile_in_group(prof, g) and self._is_profile_running(prof):
+                return True
+        return False
 
     def _refresh_groups(self):
         groups = self._get_groups()
@@ -563,6 +642,176 @@ class SimpleLauncherApp(tk.Tk):
             messagebox.showerror("Save Failed", str(e))
 
     # ---- Launch/Stop logic ----
+    def _terminate_proc_tree(self, proc: subprocess.Popen, timeout: float = 3.0):
+        """Terminate a process and its children (best effort)."""
+        if not proc:
+            return
+        try:
+            if sys.platform != "win32":
+                try:
+                    pgid = os.getpgid(proc.pid)
+                except Exception:
+                    pgid = None
+
+                if pgid is not None:
+                    try:
+                        os.killpg(pgid, signal.SIGTERM)
+                    except ProcessLookupError:
+                        pass
+                    except Exception:
+                        pass
+
+                    end = time.time() + max(0.2, timeout)
+                    while time.time() < end:
+                        if proc.poll() is not None:
+                            break
+                        time.sleep(0.1)
+
+                    try:
+                        os.killpg(pgid, signal.SIGKILL)
+                    except ProcessLookupError:
+                        pass
+                    except Exception:
+                        pass
+                else:
+                    try:
+                        proc.terminate()
+                        try:
+                            proc.wait(timeout=timeout)
+                        except Exception:
+                            proc.kill()
+                    except Exception:
+                        pass
+            else:
+                try:
+                    proc.terminate()
+                    try:
+                        proc.wait(timeout=timeout)
+                    except Exception:
+                        proc.kill()
+                except Exception:
+                    pass
+        except Exception:
+            pass
+
+    def _normalize_exec_path(self, executable_path: str) -> str:
+        """Normalize executable path for cross-process comparison."""
+        p = (executable_path or "").strip()
+        if not p:
+            return ""
+        try:
+            candidate = Path(p).expanduser()
+            if not candidate.is_absolute():
+                candidate = (BASE_DIR / candidate)
+            return str(candidate.resolve())
+        except Exception:
+            try:
+                candidate = Path(p)
+                if not candidate.is_absolute():
+                    candidate = (BASE_DIR / candidate)
+                return str(candidate)
+            except Exception:
+                return p
+
+    def _same_exec_path(self, left: str, right: str) -> bool:
+        """Best-effort path equality for executable matching."""
+        if not left or not right:
+            return False
+        try:
+            return Path(left).resolve() == Path(right).resolve()
+        except Exception:
+            return os.path.normpath(left) == os.path.normpath(right)
+
+    def _find_pids_by_command_path(self, executable_path: str, exclude_pids=None):
+        """Find processes whose COMMAND executable path matches executable_path."""
+        target = self._normalize_exec_path(executable_path)
+        if not target:
+            return []
+        excluded = set(exclude_pids or set())
+        matched = []
+        try:
+            for entry in os.listdir("/proc"):
+                if not entry.isdigit():
+                    continue
+                pid = int(entry)
+                if pid in excluded:
+                    continue
+                cmdline_path = f"/proc/{pid}/cmdline"
+                try:
+                    raw = Path(cmdline_path).read_bytes()
+                except Exception:
+                    continue
+                if not raw:
+                    continue
+                parts = [p for p in raw.split(b"\x00") if p]
+                if not parts:
+                    continue
+                try:
+                    cmd_exec = parts[0].decode("utf-8", errors="ignore").strip()
+                except Exception:
+                    continue
+                if not cmd_exec:
+                    continue
+                cmd_exec_norm = self._normalize_exec_path(cmd_exec)
+                if self._same_exec_path(cmd_exec_norm, target):
+                    matched.append(pid)
+        except Exception:
+            return []
+        return matched
+
+    def _terminate_by_command_path(self, executable_path: str, timeout: float = 3.0, exclude_pids=None):
+        """Terminate all processes matching COMMAND executable path (best effort)."""
+        pids = self._find_pids_by_command_path(executable_path, exclude_pids=exclude_pids)
+        if not pids:
+            return 0
+
+        for pid in pids:
+            try:
+                os.kill(pid, signal.SIGTERM)
+            except ProcessLookupError:
+                pass
+            except Exception:
+                pass
+
+        end = time.time() + max(0.2, timeout)
+        alive = set(pids)
+        while alive and time.time() < end:
+            gone = set()
+            for pid in list(alive):
+                try:
+                    os.kill(pid, 0)
+                except ProcessLookupError:
+                    gone.add(pid)
+                except Exception:
+                    gone.add(pid)
+            alive -= gone
+            if alive:
+                time.sleep(0.1)
+
+        for pid in list(alive):
+            try:
+                os.kill(pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            except Exception:
+                pass
+        return len(pids)
+
+    def _cleanup_old_process(self, name: str, executable_path: str = ""):
+        """Terminate tracked old handle and any stale same-COMMAND processes."""
+        old = self.processes.get(name)
+        if old:
+            self._terminate_proc_tree(old)
+            self.processes.pop(name, None)
+
+        target_path = (executable_path or "").strip()
+        if not target_path:
+            prof = next((p for p in self.data.get("profiles", []) if p.get("name") == name), None)
+            if prof:
+                target_path = (prof.get("path") or "").strip()
+        if target_path:
+            self._terminate_by_command_path(target_path, timeout=2.0, exclude_pids={os.getpid()})
+
     def _start_profile(self, prof: dict):
         name = prof.get("name")
         path = (prof.get("path") or "").strip()
@@ -578,6 +827,8 @@ class SimpleLauncherApp(tk.Tk):
         if existing and getattr(existing, 'poll', lambda: None)() is None:
             # already running
             return
+        # pre-clean stale same-COMMAND processes before relaunching
+        self._cleanup_old_process(name, executable_path=path)
         if name in self._launching:
             return
 
@@ -643,14 +894,8 @@ class SimpleLauncherApp(tk.Tk):
             # Log that this was stopped by launcher button
             executable_path = prof.get("path", "unknown")
             log_crash(name, executable_path, "stopped_by_launcher")
-            try:
-                p.terminate()
-                try:
-                    p.wait(timeout=3)
-                except Exception:
-                    p.kill()
-            except Exception:
-                pass
+            self._terminate_proc_tree(p)
+            self._terminate_by_command_path(executable_path, timeout=2.0, exclude_pids={os.getpid()})
         self.processes.pop(name, None)
         self.status_map[name] = "Stopped"
         self._apply_status_to_tree()
@@ -677,7 +922,7 @@ class SimpleLauncherApp(tk.Tk):
         # Start all profiles sequentially in the defined order
         def worker():
             profs = list(self.data.get("profiles", []))
-            profs.sort(key=lambda p: (p.get("group", ""), int(p.get("order", 0) or 0), p.get("name", "")))
+            profs.sort(key=lambda p: (self._primary_group(p), int(p.get("order", 0) or 0), p.get("name", "")))
             for idx, prof in enumerate(profs):
                 try:
                     name = prof.get("name")
@@ -712,8 +957,8 @@ class SimpleLauncherApp(tk.Tk):
         gset = set(groups)
 
         def worker():
-            profs = [p for p in self.data.get("profiles", []) if (p.get("group", "").strip() in gset)]
-            profs.sort(key=lambda p: (p.get("group", ""), int(p.get("order", 0) or 0), p.get("name", "")))
+            profs = [p for p in self.data.get("profiles", []) if any(self._profile_in_group(p, g) for g in gset)]
+            profs.sort(key=lambda p: (self._primary_group(p), int(p.get("order", 0) or 0), p.get("name", "")))
             for idx, prof in enumerate(profs):
                 try:
                     name = prof.get("name")
@@ -746,7 +991,7 @@ class SimpleLauncherApp(tk.Tk):
             return
 
         def worker():
-            profs = [p for p in self.data.get("profiles", []) if (p.get("group", "").strip() == group)]
+            profs = [p for p in self.data.get("profiles", []) if self._profile_in_group(p, group)]
             profs.sort(key=lambda p: (int(p.get("order", 0) or 0), p.get("name", "")))
             for idx, prof in enumerate(profs):
                 try:
@@ -778,13 +1023,22 @@ class SimpleLauncherApp(tk.Tk):
         if not group:
             self.status.set("Select a group to stop")
             return
-        profs = [p for p in self.data.get("profiles", []) if (p.get("group", "").strip() == group)]
+        profs = [p for p in self.data.get("profiles", []) if self._profile_in_group(p, group)]
+        skipped = 0
         for prof in profs:
             try:
+                name = prof.get("name", "")
+                other_groups = set(self._profile_groups(prof)) - {group}
+                if any(self._is_group_running_by_others(g, exclude_profile_name=name) for g in other_groups):
+                    skipped += 1
+                    continue
                 self._stop_profile(prof)
             except Exception:
                 pass
-        self.status.set(f"Stop group '{group}' complete")
+        if skipped:
+            self.status.set(f"Stop group '{group}' complete (kept {skipped} shared app(s))")
+        else:
+            self.status.set(f"Stop group '{group}' complete")
 
     def on_stop_all(self):
         for prof in list(self.data.get("profiles", [])):
@@ -809,10 +1063,11 @@ class SimpleLauncherApp(tk.Tk):
                     profs = []
                     # Add grouped apps with mode='on'
                     if on_groups:
-                        profs.extend([p for p in self.data.get("profiles", []) if (p.get("group", "").strip() in on_groups)])
+                        profs.extend([p for p in self.data.get("profiles", [])
+                                     if any(self._profile_in_group(p, g) for g in on_groups)])
                     # Always include ungrouped apps with autoStart=true
                     profs.extend([p for p in self.data.get("profiles", []) 
-                                 if p.get("autoStart") and not (p.get("group", "").strip())])
+                                 if p.get("autoStart") and not self._profile_groups(p)])
                 else:
                     # fallback to per-app autoStart
                     profs = [p for p in self.data.get("profiles", []) if p.get("autoStart")]
@@ -821,7 +1076,7 @@ class SimpleLauncherApp(tk.Tk):
                     self.status.set("No profiles to auto-start")
                     return
                 
-                profs.sort(key=lambda p: (p.get("group", ""), int(p.get("order", 0) or 0), p.get("name", "")))
+                profs.sort(key=lambda p: (self._primary_group(p), int(p.get("order", 0) or 0), p.get("name", "")))
                 
                 failed_profs = []
                 for idx, prof in enumerate(profs):
@@ -860,10 +1115,17 @@ class SimpleLauncherApp(tk.Tk):
                             pass
                 
                 # Retry failed launches if this is first attempt and we have failures
-                if failed_profs and self._auto_start_retry_count < 3:
+                max_retry = self._get_auto_start_retry_max()
+                base_delay = self._get_auto_start_retry_base_delay()
+                can_retry = (max_retry is None) or (self._auto_start_retry_count < max_retry)
+                if failed_profs and can_retry:
                     self._auto_start_retry_count += 1
-                    retry_delay = 5 * self._auto_start_retry_count  # 5s, 10s, 15s
-                    self.status.set(f"Retrying {len(failed_profs)} failed launches in {retry_delay}s (attempt {self._auto_start_retry_count}/3)...")
+                    retry_delay = min(300, base_delay * self._auto_start_retry_count)
+                    max_retry_text = "∞" if max_retry is None else str(max_retry)
+                    self.status.set(
+                        f"Retrying {len(failed_profs)} failed launches in {retry_delay}s "
+                        f"(attempt {self._auto_start_retry_count}/{max_retry_text})..."
+                    )
                     self.after(retry_delay * 1000, lambda: self._retry_failed_starts(failed_profs))
                 elif failed_profs:
                     self.status.set(f"Auto start complete ({len(failed_profs)} failed after retries)")
@@ -915,10 +1177,17 @@ class SimpleLauncherApp(tk.Tk):
                         still_failed.append(prof)
                 
                 # Retry again if needed
-                if still_failed and self._auto_start_retry_count < 3:
+                max_retry = self._get_auto_start_retry_max()
+                base_delay = self._get_auto_start_retry_base_delay()
+                can_retry = (max_retry is None) or (self._auto_start_retry_count < max_retry)
+                if still_failed and can_retry:
                     self._auto_start_retry_count += 1
-                    retry_delay = 5 * self._auto_start_retry_count
-                    self.status.set(f"Retrying {len(still_failed)} failed launches in {retry_delay}s (attempt {self._auto_start_retry_count}/3)...")
+                    retry_delay = min(300, base_delay * self._auto_start_retry_count)
+                    max_retry_text = "∞" if max_retry is None else str(max_retry)
+                    self.status.set(
+                        f"Retrying {len(still_failed)} failed launches in {retry_delay}s "
+                        f"(attempt {self._auto_start_retry_count}/{max_retry_text})..."
+                    )
                     self.after(retry_delay * 1000, lambda: self._retry_failed_starts(still_failed))
                 elif still_failed:
                     self.status.set(f"Auto start complete ({len(still_failed)} failed after retries)")
@@ -1011,6 +1280,8 @@ class SimpleLauncherApp(tk.Tk):
                     elif prof.get("autoRestart"):
                         # Has autoRestart enabled, so this is a crash/unexpected exit
                         log_crash(name, executable_path, "crashed")
+                        # Ensure stale children from old run are terminated before relaunch
+                        self._cleanup_old_process(name, executable_path=executable_path)
                         # Auto-restart logic
                         last = self._last_restart.get(name, 0)
                         if now - last >= 3:
@@ -1103,7 +1374,7 @@ class SimpleLauncherApp(tk.Tk):
                     should_run = (value == "1")
                     
                     # Get current state of group
-                    profs = [p for p in self.data.get("profiles", []) if p.get("group", "").strip() == group]
+                    profs = [p for p in self.data.get("profiles", []) if self._profile_in_group(p, group)]
                     running_count = sum(1 for p in profs if p.get("name") in self.processes 
                                        and self.processes[p.get("name")].poll() is None)
                     is_running = running_count > 0
@@ -1118,6 +1389,10 @@ class SimpleLauncherApp(tk.Tk):
                         self.status.set(f"Redis trigger: stopping group '{group}'")
                         for prof in profs:
                             try:
+                                name = prof.get("name", "")
+                                other_groups = set(self._profile_groups(prof)) - {group}
+                                if any(self._is_group_running_by_others(g, exclude_profile_name=name) for g in other_groups):
+                                    continue
                                 self._stop_profile(prof)
                             except Exception:
                                 pass
@@ -1147,14 +1422,9 @@ class SimpleLauncherApp(tk.Tk):
                         log_crash(name, executable_path, "launcher_closed")
                     
                     self._user_stop_flags[name] = True
-                    try:
-                        p.terminate()
-                        try:
-                            p.wait(timeout=2)
-                        except Exception:
-                            p.kill()
-                    except Exception:
-                        pass
+                    self._terminate_proc_tree(p, timeout=2.0)
+                    if prof:
+                        self._terminate_by_command_path(executable_path, timeout=2.0, exclude_pids={os.getpid()})
             self.processes.clear()
         except Exception:
             pass
@@ -1184,6 +1454,9 @@ class GroupLauncherWindow(tk.Toplevel):
         self.var_redis_port = tk.StringVar(value=str(app.data.get("redisPort", 6379)))
         self.var_redis_db = tk.StringVar(value=str(app.data.get("redisDb", 0)))
         self.var_redis_password = tk.StringVar(value=app.data.get("redisPassword", ""))
+        retry_max_raw = app.data.get("autoStartRetryMax", 3)
+        self.var_retry_max = tk.StringVar(value="-" if (isinstance(retry_max_raw, str) and retry_max_raw.strip() == "-") else str(retry_max_raw))
+        self.var_retry_delay = tk.StringVar(value=str(app.data.get("autoStartRetryBaseDelay", 5)))
 
         ttk.Label(redis_frame, text="Host:").grid(row=0, column=0, sticky="e", padx=4)
         ttk.Entry(redis_frame, textvariable=self.var_redis_host, width=15).grid(row=0, column=1, sticky="w", padx=4)
@@ -1193,9 +1466,14 @@ class GroupLauncherWindow(tk.Toplevel):
         ttk.Entry(redis_frame, textvariable=self.var_redis_db, width=8).grid(row=1, column=1, sticky="w", padx=4)
         ttk.Label(redis_frame, text="Password:").grid(row=1, column=2, sticky="e", padx=4)
         ttk.Entry(redis_frame, textvariable=self.var_redis_password, width=15, show="*").grid(row=1, column=3, sticky="w", padx=4)
+        ttk.Label(redis_frame, text="AutoStart Retry Max:").grid(row=2, column=0, sticky="e", padx=4)
+        ttk.Entry(redis_frame, textvariable=self.var_retry_max, width=8).grid(row=2, column=1, sticky="w", padx=4)
+        ttk.Label(redis_frame, text="Retry Base Delay(s):").grid(row=2, column=2, sticky="e", padx=4)
+        ttk.Entry(redis_frame, textvariable=self.var_retry_delay, width=8).grid(row=2, column=3, sticky="w", padx=4)
+        ttk.Label(redis_frame, text="('-' = infinite retries, max delay 300s)").grid(row=3, column=0, columnspan=4, sticky="w", padx=4, pady=(2, 0))
 
         if not REDIS_AVAILABLE:
-            ttk.Label(redis_frame, text="(redis-py not installed)", foreground="red").grid(row=2, column=0, columnspan=4, pady=4)
+            ttk.Label(redis_frame, text="(redis-py not installed)", foreground="red").grid(row=4, column=0, columnspan=4, pady=4)
 
         # Groups section
         ttk.Label(frm, text="Group Launch Control:", font=("", 10, "bold")).grid(row=1, column=0, sticky="w", pady=(10, 5))
@@ -1273,6 +1551,15 @@ class GroupLauncherWindow(tk.Toplevel):
             self.app.data["redisPort"] = int(self.var_redis_port.get() or 6379)
             self.app.data["redisDb"] = int(self.var_redis_db.get() or 0)
             self.app.data["redisPassword"] = self.var_redis_password.get().strip()
+
+            retry_max_text = (self.var_retry_max.get() or "").strip()
+            if retry_max_text == "-":
+                self.app.data["autoStartRetryMax"] = "-"
+            else:
+                self.app.data["autoStartRetryMax"] = max(0, int(retry_max_text or 3))
+
+            retry_delay_val = max(1, int((self.var_retry_delay.get() or "5").strip() or 5))
+            self.app.data["autoStartRetryBaseDelay"] = min(300, retry_delay_val)
         except Exception:
             pass
         

@@ -180,3 +180,164 @@
 [2026-03-01 20:26:24] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
 [2026-03-01 20:26:50] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
 [2026-03-01 20:26:50] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-02 09:27:54] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-02 09:27:54] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-02 09:27:54] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-02 09:28:57] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
+[2026-03-02 09:28:57] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-02 09:28:57] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: launcher_closed
+[2026-03-02 09:28:57] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-02 09:30:52] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
+[2026-03-02 09:30:51] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-02 09:30:51] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: launcher_closed
+[2026-03-02 09:30:51] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-02 09:31:27] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
+[2026-03-02 09:31:27] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-02 09:31:27] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: launcher_closed
+[2026-03-02 09:31:27] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-02 09:37:39] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-02 09:37:39] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-02 09:37:39] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-02 09:37:39] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: stopped_by_launcher
+[2026-03-02 09:43:58] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: crashed
+[2026-03-02 09:44:48] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: crashed
+[2026-03-02 09:49:59] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: crashed
+[2026-03-02 09:50:43] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: crashed
+[2026-03-02 09:51:07] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: crashed
+[2026-03-02 09:51:48] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: crashed
+[2026-03-02 09:52:19] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
+[2026-03-02 09:52:19] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-02 09:52:19] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: launcher_closed
+[2026-03-02 09:52:19] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-02 09:57:48] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
+[2026-03-02 09:57:49] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-02 09:57:49] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: launcher_closed
+[2026-03-02 09:57:49] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-02 10:05:43] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
+[2026-03-02 10:05:43] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-02 10:05:43] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: launcher_closed
+[2026-03-02 10:05:43] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-02 10:06:08] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
+[2026-03-02 10:06:08] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-02 10:06:08] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: launcher_closed
+[2026-03-02 10:06:08] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-02 10:19:27] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: crashed
+[2026-03-02 10:24:16] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
+[2026-03-02 10:24:16] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-02 10:24:16] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: launcher_closed
+[2026-03-02 10:24:16] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-02 10:25:00] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: crashed
+[2026-03-02 10:26:45] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-02 10:31:14] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-02 10:31:14] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-02 10:31:14] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-02 10:31:14] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: stopped_by_launcher
+[2026-03-02 10:41:04] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
+[2026-03-02 10:41:04] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-02 10:41:05] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: launcher_closed
+[2026-03-02 10:41:05] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-02 10:41:37] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-02 10:41:37] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-02 10:41:37] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-02 10:41:37] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: stopped_by_launcher
+[2026-03-02 10:43:08] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-02 10:43:08] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-02 10:43:08] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-02 10:46:54] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: launcher_closed
+[2026-03-02 10:47:04] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-02 10:47:04] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-02 10:47:51] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-02 10:47:51] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-02 10:47:58] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: stopped_by_launcher
+[2026-03-02 10:50:54] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-02 10:51:18] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-02 10:51:18] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-02 10:51:23] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-02 10:51:23] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: stopped_by_launcher
+[2026-03-02 10:52:06] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-02 10:52:06] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-02 10:52:06] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-02 10:52:45] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-02 10:52:46] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-02 10:55:32] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: stopped_by_launcher
+[2026-03-02 10:55:37] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-02 11:16:21] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-02 11:16:21] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: stopped_by_launcher
+[2026-03-02 14:55:59] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-02 14:55:59] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-02 14:56:01] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-02 14:56:01] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: stopped_by_launcher
+[2026-03-02 14:56:12] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 13] Permission denied: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 14:57:38] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 13] Permission denied: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 14:58:19] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-02 14:58:19] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: stopped_by_launcher
+[2026-03-02 14:58:21] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 13] Permission denied: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 14:59:09] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-02 14:59:10] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: launcher_closed
+[2026-03-02 14:59:22] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 14:59:27] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 14:59:38] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 14:59:53] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 13] Permission denied: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 15:00:10] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 13] Permission denied: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 15:01:16] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: stopped_by_launcher
+[2026-03-02 15:01:29] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-02 15:01:29] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-02 15:01:33] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-02 15:01:33] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: stopped_by_launcher
+[2026-03-02 15:01:41] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-02 15:01:41] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: stopped_by_launcher
+[2026-03-02 15:01:41] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: stopped_by_launcher
+[2026-03-02 15:01:54] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 15:02:08] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-02 15:02:09] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: launcher_closed
+[2026-03-02 15:02:22] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 15:02:27] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 15:03:19] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-02 15:03:20] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-02 15:03:20] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-02 15:03:20] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: stopped_by_launcher
+[2026-03-02 15:03:20] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: stopped_by_launcher
+[2026-03-02 15:08:56] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: stopped_by_launcher
+[2026-03-02 15:08:56] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: stopped_by_launcher
+[2026-03-02 15:08:56] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-02 15:08:59] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 15:11:03] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: crashed
+[2026-03-02 15:21:48] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: stopped_by_launcher
+[2026-03-02 15:21:48] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: stopped_by_launcher
+[2026-03-02 15:21:48] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: stopped_by_launcher
+[2026-03-02 16:37:10] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-02 16:37:10] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
+[2026-03-02 16:37:11] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-02 16:37:11] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: launcher_closed
+[2026-03-02 16:37:49] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
+[2026-03-02 16:37:49] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-02 16:37:49] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-02 16:37:49] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: launcher_closed
+[2026-03-02 16:37:49] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launcher_closed
+[2026-03-02 16:48:39] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: stopped_by_launcher
+[2026-03-02 16:48:59] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
+[2026-03-02 16:48:59] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-02 16:48:59] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-02 16:48:59] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: launcher_closed
+[2026-03-02 16:49:22] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 16:49:28] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 16:49:38] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 16:49:53] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 16:50:14] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 16:50:39] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 16:51:09] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 16:51:44] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 16:52:25] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 16:53:10] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 16:54:00] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 16:54:56] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 16:55:36] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
+[2026-03-02 16:55:36] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-02 16:55:36] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-02 16:55:36] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: launcher_closed
+[2026-03-02 16:56:57] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 16:57:03] App: test, Executable: /home/shen/project/duallauncher-main/apps/plow0, Termination: launch_failed: [Errno 2] No such file or directory: '/home/shen/project/duallauncher-main/apps/plow0'
+[2026-03-02 16:57:08] App: colision_avoidance, Executable: /home/shen/project/duallauncher-main/apps/ca_main, Termination: launcher_closed
+[2026-03-02 16:57:08] App: follow, Executable: /home/shen/project/duallauncher-main/apps/Autonomous_Following_with_Redis, Termination: launcher_closed
+[2026-03-02 16:57:08] App: plow, Executable: /home/shen/project/duallauncher-main/apps/plow2, Termination: launcher_closed
+[2026-03-02 16:57:08] App: pathplan, Executable: /home/shen/project/duallauncher-main/apps/pathplan/ship_route_planner, Termination: launcher_closed
